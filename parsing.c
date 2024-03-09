@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/09 10:56:14 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/09 11:50:25 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,6 @@
 #include <fcntl.h>
 #include <libc.h>
 
-static char*    ft_oned_array(int argc, char **argv)
-{
-    int     j;
-    char    *list;
-
-    j = 1;
-    list = NULL;
-    while (j < argc)
-    {
-        list = ft_strjoin(list, argv[j]);
-        if (!list)
-            return (free(list), perror("malloc failed"), NULL);
-        list = ft_strjoin(list, " ");
-        if (!list)
-            return (free(list), perror("malloc failed"), NULL);
-        j++;
-    }
-    return (list);
-}
 static size_t  ft_strlen(char  *str)
 {
     size_t  i;
@@ -69,7 +50,7 @@ static char    *ft_strjoin(char *arr, char *arr2)
         return (ft_strdup(arr2));
     tb = malloc(ft_strlen(arr)+ ft_strlen(arr2) + 1);
     if(!tb)
-        return (free(arr), free(arr2), NULL);
+        return (NULL);
     i = 0;
     j = 0;
     while (arr[i])
@@ -79,7 +60,25 @@ static char    *ft_strjoin(char *arr, char *arr2)
         tb[i++] = arr2[j++];
     return (free(arr), tb[i] = '\0', tb);
 }
+static char*    ft_oned_array(int argc, char **argv)
+{
+    int     j;
+    char    *list;
 
+    j = 1;
+    list = NULL;
+    while (j < argc)
+    {
+        list = ft_strjoin(list, argv[j]);
+        if (!list)
+            return (perror("malloc failed"), NULL);
+        list = ft_strjoin(list, " ");
+        if (!list)
+            return (perror("malloc failed"), NULL);
+        j++;
+    }
+    return (list);
+}
 static size_t  ft_row_size(char   *str)
 {
     size_t  row_len;
@@ -147,7 +146,7 @@ static char **ft_split(char *s1)
 }
 static int  ft_isdigit(char c)
 {
-    return (c >= '0' && c <= '9');
+    return ((c == '-' || c == '+') || (c >= '0' && c <= '9'));
 }
 int ft_parsing(int argc, char **argv)
 {
@@ -160,10 +159,23 @@ int ft_parsing(int argc, char **argv)
     if (!list)
         return (255);
     twod_array = ft_split(list); 
-    while (*twod_array)
+
+    int    i = 0;
+    int     j;
+    while (twod_array[i])
     {
-        printf("%s\n", *twod_array);
-        twod_array++;
+        j = 0;
+        while (twod_array[i][j])
+        {
+            if (!ft_isdigit(twod_array[i][j]))
+            {
+                return(write(2, "Error", 5), 255);
+            }
+            if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
+                return(write(2, "Error", 5), 255);
+            j++;
+        }
+        i++;
     }
 
     return (0);
