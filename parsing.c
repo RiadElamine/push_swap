@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/08 11:50:31 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/09 10:44:01 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static char    *ft_strjoin(char *arr, char *arr2)
         return (free(arr), free(arr2), NULL);
     i = 0;
     j = 0;
-    
     while (arr[i])
         tb[i++] = arr[j++];
     j = 0;
@@ -63,31 +62,105 @@ static char    *ft_strjoin(char *arr, char *arr2)
     return (free(arr), tb[i] = '\0', tb);
 }
 
-int parsing(int argc, char **argv)
+static size_t  ft_row_size(char   *str)
+{
+    size_t  row_len;
+
+    row_len = 0;
+    while (*str)
+    {
+        while (*str == ' ')
+            str++;
+        if(!*str)
+            break;
+        while (*str != ' ')
+            str++;
+        row_len++;
+    }
+    return (row_len);
+}
+
+static size_t  ft_column_size(char   *str)
+{
+    size_t  column_len;
+
+    column_len = 0;
+    while (str[column_len] && str[column_len] != ' ')
+        column_len++;
+    return (column_len);
+}
+static char **ft_strsplit(size_t rows, char **s2, char *s1)
+{
+    size_t  j;
+    size_t  columns;
+    size_t  i;
+
+    i = 0;
+    while (i < rows)
+    {
+        while (*s1 == ' ')
+            s1++;
+        columns = ft_column_size(s1);
+        s2[i] = malloc(columns + 1);
+        if (!s2[i])
+        {
+            while (i >= 0)
+                free(s2[--i]);
+            return (free(s2), NULL);
+        }
+        j = 0;
+        while (j < columns)
+            s2[i][j++] = *(s1++);
+        s2[i][j] = '\0';
+        i++;
+    }
+    return(s2[i] = NULL, s2);
+}
+static char **ft_split(char *s1)
+{
+    char    **s2;
+    size_t  rows;
+    
+    rows = ft_row_size(s1);
+    s2 = malloc((rows + 1)* sizeof(char *));
+    if (!s2)
+        return (NULL);
+    return (ft_strsplit(rows, s2, s1), s2);
+}
+
+int ft_parsing(int argc, char **argv)
 {
     int     j;
     char    *list;
 
-    if (argc >= 2)
+    if (argc <= 1)
+        return (-1);
+    j = 1;
+    list = NULL;
+    while (j < argc)
     {
-        j = 1;
-        list = NULL;
-        while (j < argc)
-        {
-            list = ft_strjoin(list, argv[j]);
-            if (!list)
-                return (free(list), perror("malloc failed"), 1);
-            list = ft_strjoin(list, " ");
-            if (!list)
-                return (free(list), perror("malloc failed"), 1);
-            j++;
-        }
+        list = ft_strjoin(list, argv[j]);
+        if (!list)
+            return (free(list), perror("malloc failed"), 255);
+        list = ft_strjoin(list, " ");
+        if (!list)
+            return (free(list), perror("malloc failed"), 255);
+        j++;
     }
-    printf("%s", list);
-    return (1);
+    char **a = ft_split(list); 
+    while (*a)
+    {
+        printf("%s\n",*a);
+        a++;
+    }
+
+    return (0);
 }
 
 
 //atoi
 //list =NULL
 //lstmap(str, atoi, del, list);
+
+
+

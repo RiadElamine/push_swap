@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/08 11:15:16 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/09 09:41:57 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 
 int main(int argc, char  **argv)
 {
-    if (parsing(argc, argv))
-        return (1);
+    int parsing;
+
+    parsing = ft_parsing(argc, argv);
+    if (parsing == 255)
+        return (255);
+    else if (parsing == -1)
+        return (0);
+    
     return (0);
 }
