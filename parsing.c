@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/09 10:44:01 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/09 10:56:14 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,25 @@
 #include <fcntl.h>
 #include <libc.h>
 
+static char*    ft_oned_array(int argc, char **argv)
+{
+    int     j;
+    char    *list;
 
+    j = 1;
+    list = NULL;
+    while (j < argc)
+    {
+        list = ft_strjoin(list, argv[j]);
+        if (!list)
+            return (free(list), perror("malloc failed"), NULL);
+        list = ft_strjoin(list, " ");
+        if (!list)
+            return (free(list), perror("malloc failed"), NULL);
+        j++;
+    }
+    return (list);
+}
 static size_t  ft_strlen(char  *str)
 {
     size_t  i;
@@ -127,31 +145,25 @@ static char **ft_split(char *s1)
         return (NULL);
     return (ft_strsplit(rows, s2, s1), s2);
 }
-
+static int  ft_isdigit(char c)
+{
+    return (c >= '0' && c <= '9');
+}
 int ft_parsing(int argc, char **argv)
 {
-    int     j;
     char    *list;
+    char    **twod_array;
 
     if (argc <= 1)
         return (-1);
-    j = 1;
-    list = NULL;
-    while (j < argc)
+    list = ft_oned_array(argc, argv);
+    if (!list)
+        return (255);
+    twod_array = ft_split(list); 
+    while (*twod_array)
     {
-        list = ft_strjoin(list, argv[j]);
-        if (!list)
-            return (free(list), perror("malloc failed"), 255);
-        list = ft_strjoin(list, " ");
-        if (!list)
-            return (free(list), perror("malloc failed"), 255);
-        j++;
-    }
-    char **a = ft_split(list); 
-    while (*a)
-    {
-        printf("%s\n",*a);
-        a++;
+        printf("%s\n", *twod_array);
+        twod_array++;
     }
 
     return (0);
