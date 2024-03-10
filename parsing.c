@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/10 12:45:38 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/10 15:12:52 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <string.h>
 # include <unistd.h>
 #include <libc.h>
+
+
 
 typedef struct node
 {
@@ -153,7 +155,7 @@ static char **ft_split(char *s1)
         return (NULL);
     return (ft_strsplit(rows, s2, s1), s2);
 }
-static int  ft_isdigit(char c)
+static int  ft_opt_isdigit(char c)
 {
     return ((c == '-' || c == '+') || (c >= '0' && c <= '9'));
 }
@@ -180,7 +182,7 @@ static int ft_atoi(char    *str, int    *is_error)
     }
     return (res * signe);
 }
-static int err_conv_list(char **twod_array, char **head)
+static int ft_err_conv_lst(char **twod_array, char **head)
 {
     int    i;
     int     j;
@@ -194,7 +196,7 @@ static int err_conv_list(char **twod_array, char **head)
         j = 0;
         while (twod_array[i][j])
         {
-            if (!ft_isdigit(twod_array[i][j]))
+            if (!ft_opt_isdigit(twod_array[i][j]))
                 return(write(2, "Error", 5), 255);
             if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
                 return(write(2, "Error", 5), 255);
@@ -224,14 +226,14 @@ int ft_parsing(int argc, char **argv, char **head)
     if (!list)
         return (255);
     twod_array = ft_split(list); 
-    err = err_conv_list(twod_array, head);
+    err = ft_err_conv_lst(twod_array, head);
     if (err == 255)
         return (err);
     return (0);
 }
 
 
-int *ft_lstnew(int content)
+static t_list   *ft_lstnew(int content)
 {
     t_list *newlist;
 
@@ -243,6 +245,45 @@ int *ft_lstnew(int content)
     return (newlist);
 }
 
+static t_list   *ft_lastlst(t_list *lst)
+{
+    t_list *last_list;
+
+    last_list = NULL;
+    while (lst)
+    {
+        last_list = lst;
+        lst = lst->next;
+    }
+    return (last_list);
+}
+static void ft_lstadd_back(t_list **lst, t_list *newlist)
+{
+    if (!lst)
+        return ;
+    if (!*lst && newlist)
+        (*lst)->next = newlist;
+    else
+    {
+        *lst = ft_lastlst(*lst);
+        (*lst)->next = newlist;    
+    }
+}
+static void ft_lstadd_front(t_list **lst, t_list *newlist)
+{
+    if (!lst || !newlist)
+        return;
+    newlist->next = *lst;
+    *lst = newlist;
+}
+static ft_lstclear(t_list *newlist)
+{
+                   
+}
+static ft_lstdelone()
+{
+    
+}
 //atoi
 //list =NULL
 //lstmap(str, atoi, del, list);
