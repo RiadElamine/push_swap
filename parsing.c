@@ -6,13 +6,23 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/09 11:50:25 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/10 12:45:38 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <fcntl.h>
+# include <stdlib.h>
+#include <string.h>
+# include <unistd.h>
 #include <libc.h>
+
+typedef struct node
+{
+    int          content;
+    struct node *next;
+} t_list;
+
+
 
 static size_t  ft_strlen(char  *str)
 {
@@ -96,7 +106,6 @@ static size_t  ft_row_size(char   *str)
     }
     return (row_len);
 }
-
 static size_t  ft_column_size(char   *str)
 {
     size_t  column_len;
@@ -148,10 +157,66 @@ static int  ft_isdigit(char c)
 {
     return ((c == '-' || c == '+') || (c >= '0' && c <= '9'));
 }
-int ft_parsing(int argc, char **argv)
+static int ft_atoi(char    *str, int    *is_error)
+{
+    int     signe;
+    long    res;
+
+    signe = 1;
+    res = 0;
+    if (*str == '-' || *str == '+')
+    {
+        if (*str == '-')
+            signe = -1;
+        str++;
+    }
+    while (*str)
+    {
+        if (signe == -1 && ((res > (214748364)) || ((res == (214748364)) && *str > '8')))
+            return (*is_error = 255, 255);
+        else if (signe == 1 && (res > (214748364) || ((res == (214748364) && *str > '7'))))
+            return (*is_error = 255, 255);
+        res = res * 10 + (*(str++) - '0');
+    }
+    return (res * signe);
+}
+static int err_conv_list(char **twod_array, char **head)
+{
+    int    i;
+    int     j;
+    int     is_error;
+    // int     content;
+
+    i = 0;
+    is_error = 0;
+    while (twod_array[i])
+    {
+        j = 0;
+        while (twod_array[i][j])
+        {
+            if (!ft_isdigit(twod_array[i][j]))
+                return(write(2, "Error", 5), 255);
+            if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
+                return(write(2, "Error", 5), 255);
+            j++;
+        }
+        // content = ft_atoi(twod_array[i], &is_error);
+        // if (is_error == 255)
+        // {
+        //     if (*head != NULL)
+        //         return(write(2, "Error", 5), 255);
+        //     return(write(2, "Error", 5), 255);
+        // }
+        // *head = ft_lstaddback(content);         
+        i++;
+    }
+    return (0);
+}
+int ft_parsing(int argc, char **argv, char **head)
 {
     char    *list;
     char    **twod_array;
+    int     err;
 
     if (argc <= 1)
         return (-1);
@@ -159,32 +224,25 @@ int ft_parsing(int argc, char **argv)
     if (!list)
         return (255);
     twod_array = ft_split(list); 
-
-    int    i = 0;
-    int     j;
-    while (twod_array[i])
-    {
-        j = 0;
-        while (twod_array[i][j])
-        {
-            if (!ft_isdigit(twod_array[i][j]))
-            {
-                return(write(2, "Error", 5), 255);
-            }
-            if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
-                return(write(2, "Error", 5), 255);
-            j++;
-        }
-        i++;
-    }
-
+    err = err_conv_list(twod_array, head);
+    if (err == 255)
+        return (err);
     return (0);
 }
 
 
+int *ft_lstnew(int content)
+{
+    t_list *newlist;
+
+    newlist = malloc(sizeof(t_list));
+    if(!newlist)
+        return (NULL);
+    newlist->content = content;
+    newlist->next = NULL;
+    return (newlist);
+}
+
 //atoi
 //list =NULL
 //lstmap(str, atoi, del, list);
-
-
-
