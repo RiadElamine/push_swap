@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/10 15:12:52 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/11 06:45:54 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,11 +278,18 @@ static void ft_lstadd_front(t_list **lst, t_list *newlist)
 }
 static ft_lstclear(t_list *newlist)
 {
-                   
+    t_list 
+    while (newlist)
+    {
+        free(newlist->);
+        newlist = newlist->next;
+    }     
 }
-static ft_lstdelone()
+static ft_lstdelone(t_list *list)
 {
-    
+    if (!list)
+        return (NULL);
+    free(list);
 }
 //atoi
 //list =NULL
