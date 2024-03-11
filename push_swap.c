@@ -6,16 +6,22 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/10 11:54:59 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:13:26 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.c"
 
+typedef struct node
+{
+    int          content;
+    struct node *next;
+} t_list;
+
 int main(int argc, char  **argv)
 {
     int parsing;
-    char    *head;
+    t_list    *head;
 
     head = NULL;
     parsing = ft_parsing(argc, argv, &head);

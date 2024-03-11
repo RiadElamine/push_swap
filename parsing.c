@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/11 06:45:54 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/11 11:32:21 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char    *ft_strjoin(char *arr, char *arr2)
         return (ft_strdup(arr2));
     tb = malloc(ft_strlen(arr)+ ft_strlen(arr2) + 1);
     if(!tb)
-        return (NULL);
+        return (free(arr), NULL);
     i = 0;
     j = 0;
     while (arr[i])
@@ -71,6 +71,16 @@ static char    *ft_strjoin(char *arr, char *arr2)
     while (arr2[j])
         tb[i++] = arr2[j++];
     return (free(arr), tb[i] = '\0', tb);
+}
+static int ft_isempty(char *str)
+{
+    while (*str == ' ')
+    {
+        if (*str == '\0')
+            return (1);
+        str++;
+    }
+    return (0);
 }
 static char*    ft_oned_array(int argc, char **argv)
 {
@@ -81,12 +91,14 @@ static char*    ft_oned_array(int argc, char **argv)
     list = NULL;
     while (j < argc)
     {
+        if (ft_isempty(argv[j]))
+            return (NULL);
         list = ft_strjoin(list, argv[j]);
         if (!list)
-            return (perror("malloc failed"), NULL);
+            return (NULL);
         list = ft_strjoin(list, " ");
         if (!list)
-            return (perror("malloc failed"), NULL);
+            return (NULL);
         j++;
     }
     return (list);
@@ -175,19 +187,18 @@ static int ft_atoi(char    *str, int    *is_error)
     while (*str)
     {
         if (signe == -1 && ((res > (214748364)) || ((res == (214748364)) && *str > '8')))
-            return (*is_error = 255, 255);
+            return (write(2, "Error\n", 6), *is_error = 255, 255);
         else if (signe == 1 && (res > (214748364) || ((res == (214748364) && *str > '7'))))
-            return (*is_error = 255, 255);
+            return (write(2, "Error\n", 6), *is_error = 255, 255);
         res = res * 10 + (*(str++) - '0');
     }
     return (res * signe);
 }
-static int ft_err_conv_lst(char **twod_array, char **head)
+static int ft_err_conv_lst(char **twod_array, t_list **head)
 {
     int    i;
     int     j;
     int     is_error;
-    // int     content;
 
     i = 0;
     is_error = 0;
@@ -197,41 +208,20 @@ static int ft_err_conv_lst(char **twod_array, char **head)
         while (twod_array[i][j])
         {
             if (!ft_opt_isdigit(twod_array[i][j]))
-                return(write(2, "Error", 5), 255);
+                return(write(2, "Error\n", 6), 255);
             if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
-                return(write(2, "Error", 5), 255);
+                return(write(2, "Error\n", 6), 255);
             j++;
         }
-        // content = ft_atoi(twod_array[i], &is_error);
-        // if (is_error == 255)
-        // {
-        //     if (*head != NULL)
-        //         return(write(2, "Error", 5), 255);
-        //     return(write(2, "Error", 5), 255);
-        // }
-        // *head = ft_lstaddback(content);         
+        ft_lstmap_atoi(head, twod_array[i], &is_error);
+        if (is_error == 255)
+            return (write(2, "Error\n", 6), is_error);
         i++;
     }
     return (0);
 }
-int ft_parsing(int argc, char **argv, char **head)
-{
-    char    *list;
-    char    **twod_array;
-    int     err;
 
-    if (argc <= 1)
-        return (-1);
-    list = ft_oned_array(argc, argv);
-    if (!list)
-        return (255);
-    twod_array = ft_split(list); 
-    err = ft_err_conv_lst(twod_array, head);
-    if (err == 255)
-        return (err);
-    return (0);
-}
-
+//############################################################
 
 static t_list   *ft_lstnew(int content)
 {
@@ -239,12 +229,11 @@ static t_list   *ft_lstnew(int content)
 
     newlist = malloc(sizeof(t_list));
     if(!newlist)
-        return (NULL);
+        return (write(2, "Error\n", 6), NULL);
     newlist->content = content;
     newlist->next = NULL;
     return (newlist);
 }
-
 static t_list   *ft_lastlst(t_list *lst)
 {
     t_list *last_list;
@@ -276,21 +265,69 @@ static void ft_lstadd_front(t_list **lst, t_list *newlist)
     newlist->next = *lst;
     *lst = newlist;
 }
-static ft_lstclear(t_list *newlist)
+static void ft_lstclear(t_list *lst)
 {
-    t_list 
-    while (newlist)
+    t_list *nexlist;
+
+    if (!lst)
+		return ;
+    while (lst)
     {
-        free(newlist->);
-        newlist = newlist->next;
+        nexlist = lst->next;
+        free(lst);
+        lst = nexlist;
     }     
 }
-static ft_lstdelone(t_list *list)
+static int  ft_isalready_exist()
 {
-    if (!list)
-        return (NULL);
-    free(list);
+    
 }
-//atoi
-//list =NULL
-//lstmap(str, atoi, del, list);
+static void ft_lstmap_atoi(t_list **lst, char  *str,  int *is_error)
+{
+    t_list  *newlist;
+
+    if (!*lst)
+    {
+        newlist = ft_lstnew(NULL);
+        if (!newlist)
+            return (*is_error = 255);
+        newlist->content = ft_atoi(str, is_error);
+        if (*is_error == 255)
+            return (free(newlist), *is_error = 255);
+        *lst = newlist;
+    }
+    newlist = ft_lstnew(NULL);
+    if (!newlist)
+        return (ft_lstclear(*lst), *is_error = 255);
+    newlist->content = ft_atoi(str, is_error);
+    if (*is_error == 255)
+        return (free(newlist), ft_lstclear(*lst), *is_error = 255);
+    if (ft_isalready_exist(lst, newlist->content))
+        return (free(newlist), ft_lstclear(*lst), *is_error = 255);
+    ft_lstadd_back(lst, newlist);
+}
+
+
+int ft_parsing(int argc, char **argv, t_list **head)
+{
+    char    *list;
+    char    **twod_array;
+    int     err;
+
+    if (argc <= 1)
+        return (-1);
+    list = ft_oned_array(argc, argv);
+    if (!list)
+        return (write(2, "Error\n", 6), 255);
+    twod_array = ft_split(list);
+    if (!twod_array)
+        return (write(2, "Error\n", 6), 255);
+    err = ft_err_conv_lst(twod_array, head);
+    if (err == 255)
+        return (err);
+    return (0);
+}
+
+
+
+//check in map if there are two content same
