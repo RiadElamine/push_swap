@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 00:06:04 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:55:57 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ int main(int argc, char  **argv)
     t_list    *head;
 
     head = NULL;
-    parsing = ft_parsing(argc, argv, &head);
-    if (parsing == 255)
-        return (255);
-    else if (parsing == -1)
-        return (0);
     
+    
+    if (argc > 1)
+   {    
+        if (ft_parsing(argc, argv, &head) == 255)
+            return (255);
+        while (head)
+        {
+            printf("%d\n", (head)->content);
+            head = (head)->next;
+        }
+    }
     return (0);
 }

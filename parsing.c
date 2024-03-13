@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 00:07:31 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:23:49 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static size_t  ft_strlen(char  *str)
         i++;
     return (i);
 }
-
 static char    *ft_strdup(char *str)
 {
     char    *tb;
@@ -47,7 +46,6 @@ static char    *ft_strdup(char *str)
         tb[i++] = str[j++];
     return (tb[i] = '\0', tb);
 }
-
 static char    *ft_strjoin(char *arr, char *arr2)
 {
     char    *tb;
@@ -71,33 +69,10 @@ static char    *ft_strjoin(char *arr, char *arr2)
 static int ft_isempty(char *str)
 {
     while (*str == ' ')
-    {
-        if (*str == '\0')
-            return (1);
         str++;
-    }
+    if (*str == '\0')
+        return (1);
     return (0);
-}
-static char*    ft_oned_array(int argc, char **argv)
-{
-    int     j;
-    char    *list;
-
-    j = 1;
-    list = NULL;
-    while (j < argc)
-    {
-        if (ft_isempty(argv[j]))
-            return (NULL);
-        list = ft_strjoin(list, argv[j]);
-        if (!list)
-            return (NULL);
-        list = ft_strjoin(list, " ");
-        if (!list)
-            return (NULL);
-        j++;
-    }
-    return (list);
 }
 static size_t  ft_row_size(char   *str)
 {
@@ -116,6 +91,7 @@ static size_t  ft_row_size(char   *str)
     }
     return (row_len);
 }
+
 static size_t  ft_column_size(char   *str)
 {
     size_t  column_len;
@@ -163,6 +139,27 @@ static char **ft_split(char *s1)
         return (NULL);
     return (ft_strsplit(rows, s2, s1), s2);
 }
+static char**    ft_oned_array(int argc, char **argv)
+{
+    int     j;
+    char    *list;
+
+    j = 1;
+    list = NULL;
+    while (j < argc)
+    {
+        if (ft_isempty(argv[j]))
+            return (NULL);
+        list = ft_strjoin(list, argv[j]);
+        if (!list)
+            return (NULL);
+        list = ft_strjoin(list, " ");
+        if (!list)
+            return (NULL);
+        j++;
+    }
+    return (ft_split(list));
+}
 static int  ft_opt_isdigit(char c)
 {
     return ((c == '-' || c == '+') || (c >= '0' && c <= '9'));
@@ -204,29 +201,19 @@ static t_list   *ft_lstnew(int content)
     newlist->next = NULL;
     return (newlist);
 }
-static t_list   *ft_lastlst(t_list *lst)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-    t_list *last_list;
+	t_list	*tmp;
 
-    last_list = NULL;
-    while (lst)
-    {
-        last_list = lst;
-        lst = lst->next;
-    }
-    return (last_list);
-}
-static void ft_lstadd_back(t_list **lst, t_list *newlist)
-{
-    if (!lst)
-        return ;
-    if (!*lst && newlist)
-        (*lst)->next = newlist;
-    else
-    {
-        *lst = ft_lastlst(*lst);
-        (*lst)->next = newlist;    
-    }
+	if (!*lst)
+	{
+		(*lst) = new;
+		return ;
+	}
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
 }
 static void ft_lstadd_front(t_list **lst, t_list *newlist)
 {
@@ -262,23 +249,13 @@ static void ft_lstmap_atoi(t_list **lst, char  *str,  int *is_error)
 {
     t_list  *newlist;
 
-    newlist = ft_lstnew(0);
-    if (*lst == NULL)
-    {
-        if (!newlist)
-            return (*is_error = 255,(void)0);
-        newlist->content = ft_atoi(str, is_error);
-        if (*is_error == 255)
-            return (free(newlist));
-        *lst = newlist;
-        return ;
-    }
+    newlist = ft_lstnew(ft_atoi(str, is_error));
     if (!newlist)
-        return (*is_error = 255, ft_lstclear(*lst));      
-    newlist->content = ft_atoi(str, is_error);
+        return (*is_error = 255, ft_lstclear(*lst));
     if (*is_error == 255 || ft_isalready_exist(*lst, newlist->content))
-        return (*is_error = 255, free(newlist), ft_lstclear(*lst));      
+        return (*is_error = 255, free(newlist), ft_lstclear(*lst));
     ft_lstadd_back(lst, newlist);
+
 }
 // ###############################
 static int ft_err_conv_lst(char **twod_array, t_list **head)
@@ -308,21 +285,14 @@ static int ft_err_conv_lst(char **twod_array, t_list **head)
     return (0);
 }
 
-int ft_parsing(int argc, char **argv, t_list **head)
+int ft_parsing(int argc, char **argv , t_list **head)
 {
-    char    *list;
-    char    **twod_array;
     int     err;
 
-    if (argc <= 1)
-        return (-1);
-    list = ft_oned_array(argc, argv);
-    if (!list)
+    argv = ft_oned_array(argc, argv);
+    if (!argv)
         return (write(2, "Error\n", 6), 255);
-    twod_array = ft_split(list);
-    if (!twod_array)
-        return (write(2, "Error\n", 6), 255);
-    err = ft_err_conv_lst(twod_array, head);
+    err = ft_err_conv_lst(argv, head);
     if (err == 255)
         return (err);
     return (0);
