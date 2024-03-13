@@ -6,15 +6,15 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 15:55:57 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:07:22 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.c"
+#include "push_swap.h"
 
 int main(int argc, char  **argv)
 {
-    int parsing;
+    
     t_list    *head;
 
     head = NULL;
