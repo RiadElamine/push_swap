@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/11 11:32:21 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 00:07:31 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # include <stdlib.h>
 #include <string.h>
 # include <unistd.h>
-#include <libc.h>
-
 
 
 typedef struct node
@@ -23,8 +21,6 @@ typedef struct node
     int          content;
     struct node *next;
 } t_list;
-
-
 
 static size_t  ft_strlen(char  *str)
 {
@@ -187,38 +183,12 @@ static int ft_atoi(char    *str, int    *is_error)
     while (*str)
     {
         if (signe == -1 && ((res > (214748364)) || ((res == (214748364)) && *str > '8')))
-            return (write(2, "Error\n", 6), *is_error = 255, 255);
+            return (*is_error = 255, 255);
         else if (signe == 1 && (res > (214748364) || ((res == (214748364) && *str > '7'))))
-            return (write(2, "Error\n", 6), *is_error = 255, 255);
+            return (*is_error = 255, 255);
         res = res * 10 + (*(str++) - '0');
     }
     return (res * signe);
-}
-static int ft_err_conv_lst(char **twod_array, t_list **head)
-{
-    int    i;
-    int     j;
-    int     is_error;
-
-    i = 0;
-    is_error = 0;
-    while (twod_array[i])
-    {
-        j = 0;
-        while (twod_array[i][j])
-        {
-            if (!ft_opt_isdigit(twod_array[i][j]))
-                return(write(2, "Error\n", 6), 255);
-            if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
-                return(write(2, "Error\n", 6), 255);
-            j++;
-        }
-        ft_lstmap_atoi(head, twod_array[i], &is_error);
-        if (is_error == 255)
-            return (write(2, "Error\n", 6), is_error);
-        i++;
-    }
-    return (0);
 }
 
 //############################################################
@@ -278,35 +248,65 @@ static void ft_lstclear(t_list *lst)
         lst = nexlist;
     }     
 }
-static int  ft_isalready_exist()
+static int  ft_isalready_exist(t_list   *list, int  content)
 {
-    
+    while (list)
+    {
+        if (list->content == content)
+            return (1);
+        list = list->next;
+    }
+    return (0);
 }
 static void ft_lstmap_atoi(t_list **lst, char  *str,  int *is_error)
 {
     t_list  *newlist;
 
-    if (!*lst)
+    newlist = ft_lstnew(0);
+    if (*lst == NULL)
     {
-        newlist = ft_lstnew(NULL);
         if (!newlist)
-            return (*is_error = 255);
+            return (*is_error = 255,(void)0);
         newlist->content = ft_atoi(str, is_error);
         if (*is_error == 255)
-            return (free(newlist), *is_error = 255);
+            return (free(newlist));
         *lst = newlist;
+        return ;
     }
-    newlist = ft_lstnew(NULL);
     if (!newlist)
-        return (ft_lstclear(*lst), *is_error = 255);
+        return (*is_error = 255, ft_lstclear(*lst));      
     newlist->content = ft_atoi(str, is_error);
-    if (*is_error == 255)
-        return (free(newlist), ft_lstclear(*lst), *is_error = 255);
-    if (ft_isalready_exist(lst, newlist->content))
-        return (free(newlist), ft_lstclear(*lst), *is_error = 255);
+    if (*is_error == 255 || ft_isalready_exist(*lst, newlist->content))
+        return (*is_error = 255, free(newlist), ft_lstclear(*lst));      
     ft_lstadd_back(lst, newlist);
 }
+// ###############################
+static int ft_err_conv_lst(char **twod_array, t_list **head)
+{
+    int    i;
+    int     j;
+    int     is_error;
 
+    i = 0;
+    is_error = 0;
+    while (twod_array[i])
+    {
+        j = 0;
+        while (twod_array[i][j])
+        {
+            if (!ft_opt_isdigit(twod_array[i][j]))
+                return(write(2, "Error\n", 6), 255);
+            if (twod_array[i][j + 1] == '+' || twod_array[i][j + 1] == '-')
+                return(write(2, "Error\n", 6), 255);
+            j++;
+        }
+        ft_lstmap_atoi(head, twod_array[i], &is_error);
+        if (is_error == 255)
+            return (write(2, "Error\n", 6), is_error);
+        i++;
+    }
+    return (0);
+}
 
 int ft_parsing(int argc, char **argv, t_list **head)
 {

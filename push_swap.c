@@ -6,17 +6,11 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/11 09:13:26 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 00:06:04 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.c"
-
-typedef struct node
-{
-    int          content;
-    struct node *next;
-} t_list;
 
 int main(int argc, char  **argv)
 {
