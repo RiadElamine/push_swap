@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:34:46 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 18:01:40 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 23:05:51 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t  ft_strlen(char  *str)
         i++;
     return (i);
 }
- char    *ft_strdup(char *str)
+char    *ft_strdup(char *str)
 {
     char    *tb;
     int     i;
@@ -36,7 +36,7 @@ size_t  ft_strlen(char  *str)
         tb[i++] = str[j++];
     return (tb[i] = '\0', tb);
 }
- char    *ft_strjoin(char *arr, char *arr2)
+char    *ft_strjoin(char *arr, char *arr2)
 {
     char    *tb;
     int     i;
@@ -56,32 +56,27 @@ size_t  ft_strlen(char  *str)
         tb[i++] = arr2[j++];
     return (free(arr), tb[i] = '\0', tb);
 }
- int ft_isempty(char *str)
-{
-    while (*str == ' ')
-        str++;
-    if (*str == '\0')
-        return (1);
-    return (0);
-}
- size_t  ft_row_size(char   *str)
-{
-    size_t  row_len;
 
-    row_len = 0;
+int ft_atoi(char    *str, int    *is_error)
+{
+    int     signe;
+    long    res;
+
+    signe = 1;
+    res = 0;
+    if (*str == '-' || *str == '+')
+    {
+        if (*str == '-')
+            signe = -1;
+        str++;
+    }
     while (*str)
     {
-        while (*str == ' ')
-            str++;
-        if(!*str)
-            break;
-        while (*str != ' ')
-            str++;
-        row_len++;
+        if (signe == -1 && ((res > (214748364)) || ((res == (214748364)) && *str > '8')))
+            return (*is_error = 255, 255);
+        else if (signe == 1 && (res > (214748364) || ((res == (214748364) && *str > '7'))))
+            return (*is_error = 255, 255);
+        res = res * 10 + (*(str++) - '0');
     }
-    return (row_len);
+    return (res * signe);
 }
-
-
-
-

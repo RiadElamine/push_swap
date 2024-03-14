@@ -6,72 +6,11 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:55:44 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 18:07:53 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 23:06:21 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-char **ft_split(char *s1)
-{
-    char    **s2;
-    size_t  rows;
-    
-    rows = ft_row_size(s1);
-    s2 = malloc((rows + 1)* sizeof(char *));
-    if (!s2)
-        return (NULL);
-    return (ft_strsplit(rows, s2, s1), s2);
-}
- char**    ft_oned_array(int argc, char **argv)
-{
-    int     j;
-    char    *list;
-
-    j = 1;
-    list = NULL;
-    while (j < argc)
-    {
-        if (ft_isempty(argv[j]))
-            return (NULL);
-        list = ft_strjoin(list, argv[j]);
-        if (!list)
-            return (NULL);
-        list = ft_strjoin(list, " ");
-        if (!list)
-            return (NULL);
-        j++;
-    }
-    return (ft_split(list));
-}
- int  ft_opt_isdigit(char c)
-{
-    return ((c == '-' || c == '+') || (c >= '0' && c <= '9'));
-}
- int ft_atoi(char    *str, int    *is_error)
-{
-    int     signe;
-    long    res;
-
-    signe = 1;
-    res = 0;
-    if (*str == '-' || *str == '+')
-    {
-        if (*str == '-')
-            signe = -1;
-        str++;
-    }
-    while (*str)
-    {
-        if (signe == -1 && ((res > (214748364)) || ((res == (214748364)) && *str > '8')))
-            return (*is_error = 255, 255);
-        else if (signe == 1 && (res > (214748364) || ((res == (214748364) && *str > '7'))))
-            return (*is_error = 255, 255);
-        res = res * 10 + (*(str++) - '0');
-    }
-    return (res * signe);
-}
-
 
 t_list   *ft_lstnew(int content)
 {
@@ -83,6 +22,26 @@ t_list   *ft_lstnew(int content)
     newlist->content = content;
     newlist->next = NULL;
     return (newlist);
+}
+void ft_lstadd_front(t_list **lst, t_list *newlist)
+{
+    if (!lst || !newlist)
+        return;
+    newlist->next = *lst;
+    *lst = newlist;
+}
+void ft_lstclear(t_list *lst)
+{
+    t_list *nexlist;
+
+    if (!lst)
+		return ;
+    while (lst)
+    {
+        nexlist = lst->next;
+        free(lst);
+        lst = nexlist;
+    }     
 }
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -97,4 +56,16 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+}
+void ft_lstmap_atoi(t_list **lst, char  *str,  int *is_error)
+{
+    t_list  *newlist;
+
+    newlist = ft_lstnew(ft_atoi(str, is_error));
+    if (!newlist)
+        return (*is_error = 255, ft_lstclear(*lst));
+    if (*is_error == 255 || ft_isalready_exist(*lst, newlist->content))
+        return (*is_error = 255, free(newlist), ft_lstclear(*lst));
+    ft_lstadd_back(lst, newlist);
+
 }

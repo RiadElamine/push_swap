@@ -6,13 +6,30 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:59:33 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 18:01:57 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/13 23:20:35 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
- size_t  ft_column_size(char   *str)
+static size_t  ft_row_size(char   *str)
+{
+    size_t  row_len;
+
+    row_len = 0;
+    while (*str)
+    {
+        while (*str == ' ')
+            str++;
+        if(!*str)
+            break;
+        while (*str != ' ')
+            str++;
+        row_len++;
+    }
+    return (row_len);
+}
+static size_t  ft_column_size(char   *str)
 {
     size_t  column_len;
 
@@ -21,7 +38,8 @@
         column_len++;
     return (column_len);
 }
- char **ft_strsplit(size_t rows, char **s2, char *s1)
+
+static char **ft_strsplit(size_t rows, char **s2, char *s1)
 {
     size_t  j;
     size_t  columns;
@@ -47,4 +65,16 @@
         i++;
     }
     return(s2[i] = NULL, s2);
+}
+
+char **ft_split(char *s1)
+{
+    char    **s2;
+    size_t  rows;
+    
+    rows = ft_row_size(s1);
+    s2 = malloc((rows + 1)* sizeof(char *));
+    if (!s2)
+        return (NULL);
+    return (ft_strsplit(rows, s2, s1), s2);
 }
