@@ -12,12 +12,10 @@
 
 #include "push_swap.h"
 
-void sort(t_list *lst)
+static void sort(t_list *lst)
 {
-    int i;
     int value;
 
-    i = 0;
     if (lst->next == NULL)
         return ;
     value = lst->content;
@@ -28,18 +26,18 @@ void sort(t_list *lst)
 void sa(t_list *lst)
 {
     sort(lst);
-    write(1, "sa", 2);
+    write(1, "sa\n", 3);
 }
 
 void sb(t_list *lst)
 {
     sort(lst);
-    write(1, "sb", 2);
+    write(1, "sb\n", 3);
 }
 
 void ss(t_list *lst_a, t_list *lst_b)
 {
     sort(lst_a);
     sort(lst_b);
-    write(1, "ss", 2);
+    write(1, "ss\n", 3);
 }

@@ -13,7 +13,7 @@
 
 NAME = push_swap
 SOURCES =  parsing.c   main.c utils.c     utils1.c    utils2.c    utils3.c\
-			move_s.c
+			move_s.c move_r.c
 
     
 

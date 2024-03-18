@@ -44,4 +44,7 @@ int ft_err_conv_lst(char **twod_array, t_list **head);
 void    sa(t_list *lst);
 void    sb(t_list *lst);
 void ss(t_list *lst_a, t_list *lst_b);
+void ra(t_list **lst);
+void rb(t_list **lst);
+void rs(t_list **lst_a, t_list **lst_b);
 #endif

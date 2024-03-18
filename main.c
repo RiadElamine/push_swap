@@ -15,20 +15,22 @@
 int main(int argc, char  **argv)
 {
     t_list    *stack_a;
-    t_list    *stack_b;
+    // t_list    *stack_b;
 
     stack_a = NULL;
-    stack_b = NULL; 
+    // stack_b = NULL; 
     if (argc > 1)
    {    
-        if (ft_parsing(argc, argv, &stack_a) == 255 || ft_parsing(argc, argv, &stack_b)== 255)
+        if (ft_parsing(argc, argv, &stack_a) == 255)
             return (255);
-        ss(stack_a, stack_b);
-        // while (stack_a)
-        // {
-        //     printf("\n%d\n", (stack_a)->content);
-        //     stack_a = (stack_a)->next;
-        // }
+        //ss(stack_a, stack_b);
+        ra(&stack_a);
+        while (stack_a)
+        {
+            printf("\n%d\n", (stack_a)->content);
+            stack_a = (stack_a)->next;
+        }
+
         // puts("stack b");
         // while (stack_b)
         // {
