@@ -54,8 +54,8 @@ static char **ft_strsplit(size_t rows, char **s2, char *s1)
         s2[i] = malloc(columns + 1);
         if (!s2[i])
         {
-            // while (i >= 0)
-            //     free(s2[--i]);
+            while (i >= 0)
+                free(s2[--i]);
             return (free(s2), NULL);
         }
         j = 0;
