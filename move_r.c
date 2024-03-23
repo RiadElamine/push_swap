@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:58:55 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/14 15:58:56 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/22 22:48:41 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void sort(t_list **lst)
     (*lst) = (*lst)->next;
     node->next = NULL;
     ft_lstadd_back(lst, node);
-    free(node);
 }
 
 void ra(t_list **lst)
@@ -37,9 +36,9 @@ void rb(t_list **lst)
     write(1, "rb\n", 3);
 }
 
-void rs(t_list **lst_a, t_list **lst_b)
+void rr(t_list **lst_a, t_list **lst_b)
 {
     sort(lst_a);
     sort(lst_b);
-    write(1, "ss\n", 3);
+    write(1, "rr\n", 3);
 }
