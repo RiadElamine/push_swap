@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:33:58 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/23 00:13:34 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/23 01:09:18 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,6 @@ void rr(t_list **lst_a, t_list **lst_b);
 void rra(t_list **lst);
 void rrb(t_list **lst);
 void rrr(t_list **lst_a, t_list **lst_b);
+void pb(t_list **lsta , t_list **lstb);
+void pa(t_list **lsta , t_list **lstb);
 #endif

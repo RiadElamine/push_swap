@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/22 22:49:39 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/23 01:10:06 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ int main(int argc, char  **argv)
         // rb(&stack_b);
         // rb(&stack_b);
         puts("-------------");
-        rr(&stack_a, &stack_b);
-        rr(&stack_a, &stack_b);
+        pb(&stack_a, &stack_b);
         
         while (stack_a)
         {
