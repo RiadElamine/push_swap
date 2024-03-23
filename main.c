@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/23 01:10:06 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/23 01:19:34 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ int main(int argc, char  **argv)
             return (atexit(f), 255);
         if (ft_parsing(argc, argv, &stack_b) == 255)
             return (atexit(f), 255);
-        //ss(stack_a, stack_b);
-        // tmp = stack_a;
-        // rb(&stack_b);
-        // rb(&stack_b);
+       
         puts("-------------");
         pb(&stack_a, &stack_b);
         
