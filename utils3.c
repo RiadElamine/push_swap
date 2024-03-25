@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:59:33 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/13 23:20:35 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/23 23:56:27 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,18 @@ char **ft_split(char *s1)
     if (!s2)
         return (NULL);
     return (ft_strsplit(rows, s2, s1), s2);
+}
+int	ft_lstsize(t_list *lst)
+{
+	int	count;
+
+	count = 0;
+	if (!lst)
+		return (0);
+	while (lst)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count);
 }

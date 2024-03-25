@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:50:38 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/22 20:44:18 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/25 00:58:43 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,10 @@ int ft_err_conv_lst(char **twod_array, t_list **head)
         while (twod_array[i][j])
         {
             if (ft_opt_isdigit(twod_array, i, j) == 255)
-                return (free(twod_array[i]), 255);
+                return (255);
             j++;
         }
-        ft_lstmap_atoi(head, twod_array[i], &is_error);
-        free(twod_array[i++]);
+        ft_lstmap_atoi(head, twod_array[i++], &is_error);
         if (is_error == 255)
             return (is_error);
     }

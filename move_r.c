@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:58:55 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/22 22:48:41 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/23 20:52:19 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void sort(t_list **lst)
 {
     t_list *node;
+    
 
     if ((*lst)->next == NULL)
         return ;

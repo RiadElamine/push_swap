@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 00:43:00 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/23 01:09:27 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/25 08:09:05 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void push(t_list **src , t_list **dest)
     t_list *send;
     t_list *next_send;
 
-    if ((*src)->next == NULL)
-        return ;
     send = (*src);
     next_send = (*dest);
     (*src) = (*src)->next;
@@ -29,11 +27,12 @@ static void push(t_list **src , t_list **dest)
 void pb(t_list **lsta , t_list **lstb)
 {
     push(lsta, lstb);
-    write(1, "rra\n", 4);
+    write(1, "pb\n", 4);
 }
 
 void pa(t_list **lsta , t_list **lstb)
 {
     push(lstb, lsta);
-    write(1, "rrb\n", 4);
+    write(1, "pa\n", 4);
 }
+//protect lstb and lsta
