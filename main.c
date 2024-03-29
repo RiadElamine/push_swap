@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/25 09:48:02 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/29 21:44:27 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,51 +55,66 @@ void ft_sort_four(t_list **lsta, t_list **lstb, int size_list)
     if (ft_check_sort(lsta, size_list))
         return;
     pb(lsta, lstb);
-    ft_sort_three(lsta, 3); 
+    ft_sort_three(lsta, 3);
     if ((*lstb)->content < (*lsta)->content)
-        return;
+        return (pa(lsta, lstb));
     else if ((*lstb)->content > (*lsta)->next->next->content)
         return (pa(lsta, lstb), ra(lsta), (void)0);
     else if ((*lstb)->content < (*lsta)->next->content)
         return (pa(lsta, lstb), sa(*lsta), (void)0);
-    else
+    else 
         return(rra(lsta), pa(lsta, lstb), ra(lsta), ra(lsta), (void)0);
+}
+static var *ft_get_min_max(t_list **lsta)
+{
+    var *v;
+
+    v = malloc(sizeof(var));
+    if(!v)
+        return (write(2, "Error\n", 6), NULL);
+    v->tmp = *lsta;
+    v->imax = v->tmp->content;
+    v->imin = v->imax;
+    while (++v->i < 6) 
+    {
+        if (v->imax > v->tmp->content)
+        {
+            v->imax = v->tmp->content;
+            v->max = v->i;
+        }
+        if (v->imin < v->tmp->content)
+        {
+            v->imin = v->tmp->content;
+            v->min = v->i;
+        }
+        v->tmp = v->tmp->next;
+    }
+    return (v);
 }
 void ft_sort_five(t_list **lsta, t_list **lstb, int size_list)
 {
-    t_list *tmp;
-    int i;
+    var *v;
 
-    if (ft_check_sort(lsta, 5))
+    if (ft_check_sort(lsta, size_list))
         return;
-    tmp = *lsta;
-    i = 0;
-    while (i < size_list && ((*lsta)->next->next->content >= tmp->content)) 
+    v = ft_get_min_max(lsta);
+    if (v->min == 2 || v->max == 2)
+        sa(*lsta);
+    else if ((v->min == 4 || v->min == 5 || v->max == 4 || v->max == 5) && (!(v->min == 1 || v->max == 1)))
     {
-        tmp = tmp->next;
-        i++;
-    }
-    if (i == 5)
-    {
-        pb(lsta, lstb);
-        pb(lsta, lstb);
-        if ((*lstb)->content < (*lsta)->next->content && (*lstb)->next->content < (*lsta)->next->content)
-        {
-            if ((*lstb)->content < (*lstb)->next->content)
-                sb(*lstb);
-            return(ft_sort_three(lsta, 3), pa(lsta, lstb), pa(lsta, lstb), (void)0);
-        }
+        if (v->max == 5 || v->min == 5 )
+            rra(lsta);
         else
         {
-            if ((*lstb)->content > (*lstb)->next->content)
-                return(ft_sort_three(lsta, 3), rrr(lsta, lstb), pa(lsta, lstb), ra(lsta), pa(lsta, lstb), ra(lsta), ra(lsta),(void)0);
-            return(ft_sort_three(lsta, 3), rra(lsta), pa(lsta, lstb), ra(lsta), pa(lsta, lstb), ra(lsta), ra(lsta),(void)0);
+            rra(lsta);
+            rra(lsta);
         }
     }
-    // else
-    // {
-        
-    // }
+    pb(lsta, lstb);
+    ft_sort_four(lsta, lstb, 4);
+    if ((*lstb)->content > (*lsta)->content)
+        return (pa(lsta, lstb), ra(lsta), (void)0);
+    return (pa(lsta, lstb), (void)0);
 }
 
 int main(int argc, char  **argv)
@@ -114,7 +129,7 @@ int main(int argc, char  **argv)
     if (argc > 1)
    {    
         if (ft_parsing(argc, argv, &stack_a) == 255)
-            return (atexit(f), 255);
+            return (255);
         // if (ft_parsing(argc, argv, &stack_b) == 255)
         //     return (atexit(f), 255);
        
@@ -138,11 +153,11 @@ int main(int argc, char  **argv)
         // ra(&stack_a);
 
         
-        while (stack_a)
-        {
-            printf("\n%d\n", (stack_a)->content);
-            stack_a = (stack_a)->next;
-        }
+        // while (stack_a)
+        // {
+        //     printf("\n%d\n", (stack_a)->content);
+        //     stack_a = (stack_a)->next;
+        // }
 
         // puts("stack b");
     
