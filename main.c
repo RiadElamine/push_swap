@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/29 21:44:27 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:21:10 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int ft_check_sort(t_list **list, int size)
     }
     return (check_sort);
 }
-void ft_sort_three(t_list **list, int size_list)
+static void ft_sort_three(t_list **list, int size_list)
 {
     t_list  *tmp;
 
@@ -50,22 +50,7 @@ void ft_sort_three(t_list **list, int size_list)
     }
     return ;
 }
-void ft_sort_four(t_list **lsta, t_list **lstb, int size_list)
-{
-    if (ft_check_sort(lsta, size_list))
-        return;
-    pb(lsta, lstb);
-    ft_sort_three(lsta, 3);
-    if ((*lstb)->content < (*lsta)->content)
-        return (pa(lsta, lstb));
-    else if ((*lstb)->content > (*lsta)->next->next->content)
-        return (pa(lsta, lstb), ra(lsta), (void)0);
-    else if ((*lstb)->content < (*lsta)->next->content)
-        return (pa(lsta, lstb), sa(*lsta), (void)0);
-    else 
-        return(rra(lsta), pa(lsta, lstb), ra(lsta), ra(lsta), (void)0);
-}
-static var *ft_get_min_max(t_list **lsta)
+static var *ft_get_min(t_list **lsta , int size_list)
 {
     var *v;
 
@@ -73,103 +58,142 @@ static var *ft_get_min_max(t_list **lsta)
     if(!v)
         return (write(2, "Error\n", 6), NULL);
     v->tmp = *lsta;
-    v->imax = v->tmp->content;
-    v->imin = v->imax;
-    while (++v->i < 6) 
+    v->min = v->tmp->content;
+    while (++v->i < size_list + 1) 
     {
-        if (v->imax > v->tmp->content)
+        if (v->min > v->tmp->content)
         {
-            v->imax = v->tmp->content;
-            v->max = v->i;
-        }
-        if (v->imin < v->tmp->content)
-        {
-            v->imin = v->tmp->content;
-            v->min = v->i;
+            v->min = v->tmp->content;
+            v->imin = v->i;
         }
         v->tmp = v->tmp->next;
     }
     return (v);
 }
-void ft_sort_five(t_list **lsta, t_list **lstb, int size_list)
+static var *ft_get_min_opt(t_list **lsta , int size_list, var *v)
+{
+    v->i = 0;
+    v->tmp = *lsta;
+    v->tp = v->tmp;
+    while (v->tp->index != -1)
+    {
+        v->tp = v->tp->next;
+    }
+    v->min = v->tp->content;
+    while (++v->i < size_list + 1) 
+    {
+        if (v->min > v->tmp->content && v->tmp->index == -1)
+        {
+            v->min = v->tmp->content;
+            v->imin = v->i;
+        }
+        v->tmp = v->tmp->next;
+    }
+    return (v);
+}
+static void ft_sort_four(t_list **lsta, t_list **lstb, int size_list)
+{
+    if (ft_check_sort(lsta, size_list))
+        return;
+        var *v;
+    if (ft_check_sort(lsta, size_list))
+        return;
+    v = ft_get_min(lsta, size_list);
+    if (v->imin == 2)
+        sa(*lsta);
+    if (v->imin == 3)
+    {
+        ra(lsta);
+        ra(lsta);
+    }
+    else if (v->imin == 4)
+        rra(lsta);
+    pb(lsta, lstb);
+    ft_sort_three(lsta, 3);
+    return (pa(lsta, lstb), free(v),(void)0);
+}
+static void ft_sort_five(t_list **lsta, t_list **lstb, int size_list)
 {
     var *v;
 
     if (ft_check_sort(lsta, size_list))
         return;
-    v = ft_get_min_max(lsta);
-    if (v->min == 2 || v->max == 2)
+    v = ft_get_min(lsta, size_list);
+    if (v->imin == 2)
         sa(*lsta);
-    else if ((v->min == 4 || v->min == 5 || v->max == 4 || v->max == 5) && (!(v->min == 1 || v->max == 1)))
+    if (v->imin == 3)
     {
-        if (v->max == 5 || v->min == 5 )
+        ra(lsta);
+        ra(lsta);
+    }
+    else if ((v->imin == 5 || v->imin == 4) && (!(v->imin == 1 || v->imin == 1)))
+    {
+        if (v->imin == 4 || v->imin == 4 )
             rra(lsta);
-        else
-        {
-            rra(lsta);
-            rra(lsta);
-        }
+        rra(lsta);
     }
     pb(lsta, lstb);
     ft_sort_four(lsta, lstb, 4);
-    if ((*lstb)->content > (*lsta)->content)
-        return (pa(lsta, lstb), ra(lsta), (void)0);
-    return (pa(lsta, lstb), (void)0);
-}
+    return (pa(lsta, lstb), free(v), (void)0);
+}  
 
+void ft_index(t_list **stack_a, int argc)
+{
+    t_list *tmp;
+    int     i;
+    var *v;
+
+    tmp = *stack_a;
+    while (tmp)
+    {
+        tmp->index = -1;
+        tmp = (tmp)->next;
+    }
+    tmp = *stack_a;
+    v = ft_get_min(stack_a, argc);
+    while (tmp->content != v->min)
+        tmp = tmp->next;
+    tmp->index = 1;
+    i = 2;
+    while (i <= argc)
+    {
+        tmp = *stack_a;
+        v = ft_get_min_opt(stack_a, argc, v);
+        while (tmp->content != v->min)
+            tmp = tmp->next;
+        tmp->index = i++;
+    }
+    return;
+}
 int main(int argc, char  **argv)
 {
-    t_list    *stack_a;
-    // t_list *tmp;
-    t_list    *stack_b;
+    t_list      *stack_a;
+    t_list      *stack_b;
 
     stack_a = NULL;
     stack_b = NULL; 
-    
     if (argc > 1)
    {    
         if (ft_parsing(argc, argv, &stack_a) == 255)
             return (255);
-        // if (ft_parsing(argc, argv, &stack_b) == 255)
-        //     return (atexit(f), 255);
-       
         argc = ft_lstsize(stack_a);
         if (argc > 1 && argc < 4)
             ft_sort_three(&stack_a, argc);
-        if (argc == 4 )
+        else if (argc == 4 )
             ft_sort_four(&stack_a, &stack_b, argc);
-        if (argc == 5)
+        else if (argc == 5)
             ft_sort_five(&stack_a, &stack_b, argc);
+        else
+        {
+            ft_index(&stack_a, argc);
 
-        // puts("-------------");
-        // pb(&stack_a,&stack_b);
-        // pb(&stack_a,&stack_b);
-        // ra(&stack_a);
-        // rra(&stack_a);
-        // pa(&stack_a,&stack_b);
-        // ra(&stack_a);
-        // pa(&stack_a,&stack_b);
-        // ra(&stack_a);
-        // ra(&stack_a);
-
-        
-        // while (stack_a)
-        // {
-        //     printf("\n%d\n", (stack_a)->content);
-        //     stack_a = (stack_a)->next;
-        // }
-
-        // puts("stack b");
-    
-        // rb(&stack_b);
-        // while (stack_b)
-        // {
-        //     printf("\n%d\n", (stack_b)->content);
-        //     stack_b = (stack_b)->next;
-        // }
-        // ft_lstclear(tmp);
-        // atexit(f);
-
+            while (stack_a->next)
+            {
+                printf("%d---> %d \n", stack_a->index, stack_a->content);
+                stack_a =stack_a->next;
+            }
+            printf("%d---> %d \n", stack_a->index, stack_a->content);
+        }
     }
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:33:58 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/29 21:37:02 by relamine         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:16:43 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 typedef struct node
 {
+    int         index;
     int          content;
     struct node *next;
 } t_list;
@@ -26,10 +27,10 @@ typedef struct node
 typedef struct variables
 {
     int i;
-    int max;
-    int imax;
     int imin;
     int min;
+    int check;
+    t_list *tp;
     t_list *tmp;
 } var;
 
