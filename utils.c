@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:34:46 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/23 23:56:11 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:31:58 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,17 @@ int ft_atoi(char    *str, int    *is_error)
         res = res * 10 + (*(str++) - '0');
     }
     return (res * signe);
+}
+t_list	*ft_lstlast(t_list *lst)
+{
+	t_list	*ls;
+
+	if (!lst)
+		return (NULL);
+	while (lst)
+	{
+		ls = lst;
+		lst = lst->next;
+	}
+	return (ls);
 }

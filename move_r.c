@@ -6,13 +6,13 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:58:55 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/29 21:41:45 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/17 05:56:17 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void sort(t_list **lst)
+static void sort(t_list **lst, char *msg)
 {
     t_list *node;
     
@@ -23,23 +23,24 @@ static void sort(t_list **lst)
     (*lst) = (*lst)->next;
     node->next = NULL;
     ft_lstadd_back(lst, node);
+    write(1, msg, 3);
 }
 
 void ra(t_list **lst)
 {
-    sort(lst);
-    write(1, "ra\n", 3);
+    sort(lst, "ra\n");
 }
 
 void rb(t_list **lst)
 {
-    sort(lst);
-    write(1, "rb\n", 3);
+    sort(lst, "rb\n");
 }
 
 void rr(t_list **lst_a, t_list **lst_b)
 {
-    sort(lst_a);
-    sort(lst_b);
+    sort(lst_a, NULL);
+    sort(lst_b, NULL);
+    if ((*lst_a)->next == NULL && (*lst_b)->next == NULL)
+        return ;
     write(1, "rr\n", 3);
 }

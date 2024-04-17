@@ -6,44 +6,34 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:50:38 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/25 00:58:43 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:31:20 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-
-static int ft_isempty(char *str)
+static int  ft_isalready_exist(t_list   *list, int  content)
 {
-    while (*str == ' ')
-        str++;
-    if (*str == '\0')
-        return (1);
+    while (list)
+    {
+        if (list->content == content)
+            return (1);
+        list = list->next;
+    }
     return (0);
 }
 
-char**    ft_oned_array(int argc, char **argv)
+static void ft_lstmap_atoi(t_list **lst, char  *str,  int *is_error)
 {
-    int     j;
-    char    *list;
-    char    **tod_array;
+    t_list  *newlist;
 
-    j = 1;
-    list = NULL;
-    while (j < argc)
-    {
-        if (ft_isempty(argv[j]))
-            return (NULL);
-        list = ft_strjoin(list, argv[j]);
-        if (!list)
-            return (NULL);
-        list = ft_strjoin(list, " ");
-        if (!list)
-            return (NULL);
-        j++;
-    }
-    tod_array = ft_split(list);
-    return (free(list), tod_array);
+    newlist = ft_lstnew(ft_atoi(str, is_error));
+    if (!newlist)
+        return (*is_error = 255, ft_lstclear(*lst));
+    if (*is_error == 255 || ft_isalready_exist(*lst, newlist->content))
+        return (*is_error = 255, free(newlist), ft_lstclear(*lst));
+    ft_lstadd_back(lst, newlist);
+
 }
 
 static int  ft_opt_isdigit(char **twod_array, int i, int j)
@@ -81,17 +71,6 @@ int ft_err_conv_lst(char **twod_array, t_list **head)
         ft_lstmap_atoi(head, twod_array[i++], &is_error);
         if (is_error == 255)
             return (is_error);
-    }
-    return (0);
-}
-
-int  ft_isalready_exist(t_list   *list, int  content)
-{
-    while (list)
-    {
-        if (list->content == content)
-            return (1);
-        list = list->next;
     }
     return (0);
 }

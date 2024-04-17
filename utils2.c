@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:55:44 by relamine          #+#    #+#             */
-/*   Updated: 2024/03/22 21:55:23 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:28:49 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,18 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		tmp = tmp->next;
 	tmp->next = new;
 }
-void ft_lstmap_atoi(t_list **lst, char  *str,  int *is_error)
+int	ft_lstsize(t_list *lst)
 {
-    t_list  *newlist;
+	int	count;
 
-    newlist = ft_lstnew(ft_atoi(str, is_error));
-    if (!newlist)
-        return (*is_error = 255, ft_lstclear(*lst));
-    if (*is_error == 255 || ft_isalready_exist(*lst, newlist->content))
-        return (*is_error = 255, free(newlist), ft_lstclear(*lst));
-    ft_lstadd_back(lst, newlist);
-
+	count = 0;
+	if (!lst)
+		return (0);
+	while (lst)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count);
 }
+

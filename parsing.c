@@ -6,11 +6,45 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:26:12 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/05 08:22:05 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:32:24 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+
+static int ft_isempty(char *str)
+{
+    while (*str == ' ')
+        str++;
+    if (*str == '\0')
+        return (1);
+    return (0);
+}
+
+static char**    ft_oned_array(int argc, char **argv)
+{
+    int     j;
+    char    *list;
+    char    **tod_array;
+
+    j = 1;
+    list = NULL;
+    while (j < argc)
+    {
+        if (ft_isempty(argv[j]))
+            return (NULL);
+        list = ft_strjoin(list, argv[j]);
+        if (!list)
+            return (NULL);
+        list = ft_strjoin(list, " ");
+        if (!list)
+            return (NULL);
+        j++;
+    }
+    tod_array = ft_split(list);
+    return (free(list), tod_array);
+}
 
 int ft_parsing(int argc, char **argv , t_list **head)
 {
