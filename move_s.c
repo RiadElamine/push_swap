@@ -6,39 +6,39 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:57:57 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/17 04:43:10 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:13:29 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void sort(t_list *lst, char *msg)
+static void	sort(t_list *lst, char *msg)
 {
-    int value;
+	int	value;
 
-    if (lst->next == NULL)
-        return ;
-    value = lst->content;
-    lst->content = lst->next->content;
-    lst->next->content = value;
-    write(1, msg, 3);
+	if (!lst || lst->next == NULL)
+		return ;
+	value = lst->content;
+	lst->content = lst->next->content;
+	lst->next->content = value;
+	write(1, msg, 3);
 }
 
-void sa(t_list *lst)
+void	sa(t_list *lst)
 {
-    sort(lst, "sa\n");
+	sort(lst, "sa\n");
 }
 
-void sb(t_list *lst)
+void	sb(t_list *lst)
 {
-    sort(lst, "sb\n");
+	sort(lst, "sb\n");
 }
 
-void ss(t_list *lst_a, t_list *lst_b)
+void	ss(t_list *lst_a, t_list *lst_b)
 {
-    sort(lst_a, NULL);
-    sort(lst_b, NULL);
-    if (lst_a->next == NULL && lst_b->next == NULL)
-        return ;
-    write(1, "ss\n", 3);
+	sort(lst_a, NULL);
+	sort(lst_b, NULL);
+	if (lst_a->next == NULL && lst_b->next == NULL)
+		return ;
+	write(1, "ss\n", 3);
 }
