@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:58:22 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/28 16:52:30 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:23:10 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	ft_next(t_list **stack_a, t_list **stack_b, t_buffer *lst_moves)
 	ft_moveclear(lst_moves);
 	return (new_stdout);
 }
+
 int	main(int argc, char **argv)
 {
 	t_list		*stack_a;
@@ -41,8 +42,8 @@ int	main(int argc, char **argv)
 	while (input != NULL)
 	{
 		if (ft_check_mov(input, &lst_moves))
-			return (free(input), ft_moveclear(lst_moves), ft_lstclear(stack_b), ft_lstclear(stack_a),
-				write(2, "Error\n", 6), 1);
+			return (free(input), ft_moveclear(lst_moves), ft_lstclear(stack_b),
+				ft_lstclear(stack_a), write(2, "Error\n", 6), 1);
 		free(input);
 		input = get_next_line(0);
 	}

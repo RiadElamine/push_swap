@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:19:27 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/24 10:00:40 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:45:18 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	{
 		if (ft_check_sort(&stack_a, argc))
 			return (0);
-		ft_sort_big_ls(&stack_a, stack_b, argc);
+		ft_sort_big_ls(&stack_a, &stack_b, argc);
 	}
 	ft_lstclear(stack_a);
 }

@@ -6,36 +6,49 @@
 #    By: relamine <relamine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/14 15:59:36 by relamine          #+#    #+#              #
-#    Updated: 2024/04/17 10:37:22 by relamine         ###   ########.fr        #
+#    Updated: 2024/04/29 18:26:19 by relamine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = push_swap
-SOURCES =  parsing.c   main.c utils.c     utils1.c    utils2.c    utils3.c\
-			move_s.c move_r.c move_rr.c send.c stack_a.c stack_b.c get_min_max.c sorting_func.c
+BONUS = checker
 
-OBJECTS = $(SOURCES:.c=.o)
-#B_OBJECTS = $(BSOURCES:.c=.o)
+SOURCES =  parsing.c  utils.c  utils1.c    utils2.c    utils3.c move_s.c move_r.c move_rr.c send.c\
+			stack_a.c stack_b.c get_min.c sorting_func.c
+			
+SRC_MAIN =  main.c
+
+BONUS_FILES = bonus/checker_bonus.c bonus/get_next_line/get_next_line_utils.c bonus/get_next_line/get_next_line.c bonus/checker_utils_bonus.c bonus/checker_utils2_bonus.c
+
+BONUS_OBJECTS = $(BONUS_FILES:.c=.o)
+SRC_OBJECTS = $(SOURCES:.c=.o)
+SRC_MAIN_OBJ = $(SRC_MAIN:.c=.o)
+
+OBJECTS = $(SRC_OBJECTS) $(BONUS_OBJECTS)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM =rm -f
 
-
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) 
+bonus : $(BONUS)
 
-#bonus: $(B_OBJECTS)
-#	$(AR) $(NAME) $(B_OBJECTS)
-%.o : %.c 
-	$(CC) $(CFLAGS) -c $< 
+$(NAME): $(SRC_OBJECTS) $(SRC_MAIN_OBJ)
+	$(CC) $(CFLAGS) $(SRC_MAIN_OBJ) $(SRC_OBJECTS) -o $(NAME) 
+
+$(BONUS): $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(BONUS)
+	
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	$(RM) $(OBJECTS) $(B_OBJECTS)
+	$(RM) $(SRC_OBJECTS) $(SRC_MAIN_OBJ) $(OBJECTS)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(BONUS)
 
-re: fclean all
+re: fclean all bonus
+

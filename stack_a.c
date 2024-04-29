@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 09:38:29 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/25 04:03:17 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:13:21 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_push_a(t_list **stack_a, t_list **stack_b, int a, int value)
 		argc++;
 		tmp = tmp->next;
 	}
-	if (argc < (ft_lstsize(*stack_b) / 2) + 1)
+	if (argc <= (ft_lstsize(*stack_b) / 2))
 		while (a--)
 			rb(stack_b);
 	else
@@ -44,7 +44,7 @@ static int	ft_postition(t_list *stack_b, int value)
 	{
 		if (stack_b->index == value)
 		{
-			if (i > (size / 2) - 1)
+			if (i >= (size / 2))
 				return (size - i);
 			return (i);
 		}
@@ -54,7 +54,7 @@ static int	ft_postition(t_list *stack_b, int value)
 	return (i);
 }
 
-static void	ft_organize_a(t_list **stack_a, t_list **stack_b)
+void	ft_push_to_a(t_list **stack_a, t_list **stack_b)
 {
 	int	ismax;
 	int	imax;
@@ -77,9 +77,4 @@ static void	ft_organize_a(t_list **stack_a, t_list **stack_b)
 		else
 			ft_push_a(stack_a, stack_b, imax, max);
 	}
-}
-
-void	ft_push_to_a(t_list **stack_a, t_list **stack_b)
-{
-	ft_organize_a(stack_a, stack_b);
 }

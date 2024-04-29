@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:58:55 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/24 22:27:00 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:06:39 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	sort(t_list **lst, char *msg)
 {
 	t_list	*node;
 
-	if (!*lst || (*lst)->next == NULL)
+	if (!(*lst) || !(*lst)->next)
 		return ;
 	node = (*lst);
 	(*lst) = (*lst)->next;
@@ -39,7 +39,9 @@ void	rr(t_list **lst_a, t_list **lst_b)
 {
 	sort(lst_a, NULL);
 	sort(lst_b, NULL);
-	if ((*lst_a)->next == NULL && (*lst_b)->next == NULL)
+	if (!(*lst_a) || !(*lst_b))
+		return ;
+	if (!(*lst_a)->next && !(*lst_b)->next)
 		return ;
 	write(1, "rr\n", 3);
 }

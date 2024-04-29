@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:11:08 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/25 03:59:08 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:31:49 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ void	ft_sort_five(t_list **lsta, t_list **lstb)
 	pa(lsta, lstb);
 }
 
-void	ft_sort_big_ls(t_list **stack_a, t_list *stack_b, int argc)
+void	ft_sort_big_ls(t_list **stack_a, t_list **stack_b, int argc)
 {
 	int	chunks;
 
 	chunks = 5;
 	if (argc > 100)
-		chunks = 8;
-	ft_push_to_b(stack_a, &stack_b, argc, chunks);
-	ft_push_to_a(stack_a, &stack_b);
+		chunks = 9;
+	ft_push_to_b(stack_a, stack_b, argc, chunks);
+	ft_push_to_a(stack_a, stack_b);
 }

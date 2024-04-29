@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 12:15:35 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/28 16:51:49 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:26:55 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,19 @@ void	ft_checker_sort(t_list **stack_a, int argc, int new_stdout)
 	write(new_stdout, "OK\n", 3);
 }
 
-void	ft_moveadd_front(t_buffer **lst, t_buffer *newlist)
+void	ft_moveadd_back(t_buffer **lst, t_buffer *new)
 {
-	if (!lst || !newlist)
+	t_buffer	*tmp;
+
+	if (!*lst)
+	{
+		(*lst) = new;
 		return ;
-	newlist->next = *lst;
-	*lst = newlist;
+	}
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
 }
 
 void	ft_moveclear(t_buffer *lst)

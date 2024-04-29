@@ -6,7 +6,7 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:59:23 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/28 15:17:41 by relamine         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:26:42 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct buffer
 {
-	char	*moves;
+	char			*moves;
 	struct buffer	*next;
 }	t_buffer;
 
@@ -27,9 +27,9 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_check_mov(char *move, t_buffer **lst_moves);
 void		ft_checker_sort(t_list **stack_a, int argc, int new_stdout);
 t_buffer	*ft_movenew(char *content);
-void		ft_apply_mov(t_buffer *lst_moves, t_list **stack_a, t_list **stack_b);
-void		ft_moveadd_front(t_buffer **lst, t_buffer *newlist);
+void		ft_apply_mov(t_buffer *lst_moves, t_list **stack_a,
+				t_list **stack_b);
+void		ft_moveadd_back(t_buffer **lst, t_buffer *new);
 void		ft_moveclear(t_buffer *lst);
-
 
 #endif
