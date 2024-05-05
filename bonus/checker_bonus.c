@@ -6,21 +6,16 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:58:22 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/29 18:23:10 by relamine         ###   ########.fr       */
+/*   Updated: 2024/05/04 01:22:10 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_bonus.h"
 
-static int	ft_next(t_list **stack_a, t_list **stack_b, t_buffer *lst_moves)
+static void	ft_next(t_list **stack_a, t_list **stack_b, t_buffer *lst_moves)
 {
-	int	new_stdout;
-
-	new_stdout = open("/dev/stdout", O_WRONLY);
-	close(1);
 	ft_apply_mov(lst_moves, stack_a, stack_b);
 	ft_moveclear(lst_moves);
-	return (new_stdout);
 }
 
 int	main(int argc, char **argv)
@@ -47,6 +42,7 @@ int	main(int argc, char **argv)
 		free(input);
 		input = get_next_line(0);
 	}
-	ft_checker_sort(&stack_a, argc, ft_next(&stack_a, &stack_b, lst_moves));
+	ft_next(&stack_a, &stack_b, lst_moves);
+	ft_checker_sort(&stack_a, argc);
 	return (ft_lstclear(stack_a), ft_lstclear(stack_b), 0);
 }

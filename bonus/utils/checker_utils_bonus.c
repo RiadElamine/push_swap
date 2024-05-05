@@ -6,11 +6,11 @@
 /*   By: relamine <relamine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:02:09 by relamine          #+#    #+#             */
-/*   Updated: 2024/04/29 13:30:32 by relamine         ###   ########.fr       */
+/*   Updated: 2024/05/04 01:42:26 by relamine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker_bonus.h"
+#include "../checker_bonus.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
